@@ -106,6 +106,12 @@ namespace MyTools
             Scenes.CreateSeparator();
         }
 
+        [MenuItem("Tools/Setup/Debug/Graphics Card")]
+        public static void DebugGraphicsCard()
+        {
+            SomeDebug.LogGraphicCard();
+        }
+
         #endregion
 
         #region Helpers
@@ -207,6 +213,16 @@ namespace MyTools
             }
         }
 
+        #endregion
+
+        #region Debug
+        static class SomeDebug
+        {
+            public static void LogGraphicCard()
+            {
+                Debug.Log(SystemInfo.graphicsDeviceName);
+            }
+        }
         #endregion
     }
 }
