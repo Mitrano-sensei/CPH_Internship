@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.mitrano.utilities": {
-      "version": "file:Unity-Utilities",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.burst": {
       "version": "1.8.15",
       "depth": 1,
