@@ -1,3 +1,6 @@
 [submodule "Packages/Unity-Utilities"]
 	path = Packages/Unity-Utilities
 	url = https://github.com/Mitrano-sensei/Unity-Utilities.git
+[submodule "Packages/Finite-State-Machine"]
+	path = Packages/Finite-State-Machine
+	url = https://github.com/Mitrano-sensei/Finite-State-Machine.git
