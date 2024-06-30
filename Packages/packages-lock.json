@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.mitrano.behaviourtree": {
+      "version": "file:Behaviour-Tree",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.mitrano.statemachine": {
+      "version": "file:Finite-State-Machine",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.mitrano.utilities": {
       "version": "file:Unity-Utilities",
       "depth": 0,
