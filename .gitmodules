@@ -4,3 +4,6 @@
 [submodule "Packages/Finite-State-Machine"]
 	path = Packages/Finite-State-Machine
 	url = https://github.com/Mitrano-sensei/Finite-State-Machine.git
+[submodule "Packages/Behaviour-Tree"]
+	path = Packages/Behaviour-Tree
+	url = https://github.com/Mitrano-sensei/Behaviour-Tree.git
