@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BehaviourTree;
 using UnityEngine;
 
 public class DoorwayBehaviour : MonoBehaviour
@@ -27,8 +28,32 @@ public class DoorwayBehaviour : MonoBehaviour
     
     private void InitTestBehaviour()
     {
+        var mainSequence = new Sequence("Main Sequence");
         
+        var doDance = new Leaf(new ActionStrategy(DanceMove));
+        var doHello = new Leaf(new ActionStrategy(SayHello));
+        var doIdle = new Leaf(new ActionStrategy(GoIdle));
+        var waitTwoSec = new WaitLeaf(2f);
+        var waitForDance = new UntilSuccess("Wait For Dance");
+        waitForDance.AddChild(new ConditionLeaf(IsDanceFinished));
         
+        mainSequence.AddChild(new DebugLeaf("Starting"));
+        mainSequence.AddChild(doDance);
+        mainSequence.AddChild(waitForDance);
+        mainSequence.AddChild(new DebugLeaf("Dance Finished"));
+        // mainSequence.AddChild(doIdle);
+        mainSequence.AddChild(waitTwoSec);
+        mainSequence.AddChild(doHello);
+        mainSequence.AddChild(new DebugLeaf("Ending"));
+        
+        _behaviour.AddChild(mainSequence);
+    }
+
+    private bool IsDanceFinished()
+    {
+        var isDancingOrTransition = _animator.GetCurrentAnimatorStateInfo(0).IsName("Base.Dance") || _animator.IsInTransition(0);
+        
+        return !isDancingOrTransition;
     }
 
     private void DanceMove()
