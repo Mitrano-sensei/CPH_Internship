@@ -31353,7 +31353,6 @@ MonoBehaviour:
   audioSource: {fileID: 712608751}
   letterPerSecond: 100
   followPlayer: 1
-  dialogInfo: {fileID: 11400000, guid: 4efd59e8bcdb5c44e92c2f510e0ecc3b, type: 2}
 --- !u!1 &1902436220
 GameObject:
   m_ObjectHideFlags: 0
@@ -32946,6 +32945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df52953fde4e2c94b9653bc28102b55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogSystem: {fileID: 1888440092}
+  dialogInfo: {fileID: 11400000, guid: 4efd59e8bcdb5c44e92c2f510e0ecc3b, type: 2}
 --- !u!1001 &2057294289
 PrefabInstance:
   m_ObjectHideFlags: 0

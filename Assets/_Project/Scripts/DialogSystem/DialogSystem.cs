@@ -70,7 +70,6 @@ public class DialogSystem : MonoBehaviour
         var startTime = Time.time;
         audioSource.clip = dialogLine.DialogAudio;
 
-        CountdownTimer audioCountDown = null;
         if (audioSource.clip != null)
         {
             audioSource.Play();
@@ -102,16 +101,17 @@ public class DialogSystem : MonoBehaviour
     }
     
     // Temp
-    [SerializeField] private DialogInfo dialogInfo;
+    // [SerializeField] private DialogInfo dialogInfo;
     private void Start()
     {
-        StartDialog(dialogInfo);
+        // StartDialog(dialogInfo);
         
         _camera = Camera.main;
     }
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             NextLine();
@@ -121,6 +121,7 @@ public class DialogSystem : MonoBehaviour
         {
             NextLine(true);
         }
+        */
 
         if (followPlayer)
         {

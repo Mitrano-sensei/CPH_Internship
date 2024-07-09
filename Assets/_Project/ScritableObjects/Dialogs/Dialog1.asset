@@ -26,3 +26,12 @@ MonoBehaviour:
       text ever since the 1500s, when an unknown printer took a galley of type and
       scrambled it to make a type specimen book.
     dialogAudio: {fileID: 8300000, guid: eac504595b43ce04cb16de8d687e5567, type: 3}
+  - speakerName: Doorway
+    dialogText: 1...
+    dialogAudio: {fileID: 0}
+  - speakerName: Doorway
+    dialogText: 2...
+    dialogAudio: {fileID: 0}
+  - speakerName: Doorway
+    dialogText: 3...
+    dialogAudio: {fileID: 0}
