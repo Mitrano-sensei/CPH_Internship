@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using BehaviourTree;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DoorwayBehaviour : MonoBehaviour
 {
     [SerializeField] private DialogSystem dialogSystem;
-    [SerializeField] private DialogInfo dialogInfo;
+    [SerializeField] private DialogInfo mainDialog;
     
     private readonly BehaviourTree.BehaviourTree _behaviour = new();
     private Animator _animator;
@@ -41,7 +42,7 @@ public class DoorwayBehaviour : MonoBehaviour
         var waitTwoSec = new WaitLeaf(2f);
         var waitForDance = new UntilSuccess("Wait For Dance");
 
-        var playDialog = new DialogCompleteLeaf(dialogSystem, dialogInfo, "Hello and Dance!");
+        var playDialog = new DialogCompleteLeaf(dialogSystem, mainDialog, "Hello and Dance!");
         
         waitForDance.AddChild(new ConditionLeaf(IsDanceFinished));
         
@@ -68,7 +69,7 @@ public class DoorwayBehaviour : MonoBehaviour
         var waitForDance = new UntilSuccess("Wait For Dance");
         waitForDance.AddChild(new ConditionLeaf(IsDanceFinished));
         
-        var startDialog = new DialogStartLeaf(dialogSystem, dialogInfo, "Start Dialog");
+        var startDialog = new DialogStartLeaf(dialogSystem, mainDialog, "Start Dialog");
         var nextDialog = new DialogNextLineLeaf(dialogSystem, "Next Dialog");
         var finishDialog = new DialogFinishLeaf(dialogSystem, "Dialog Finish");
         

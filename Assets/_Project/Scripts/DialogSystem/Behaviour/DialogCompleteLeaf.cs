@@ -2,6 +2,8 @@
 
 /**
  * Will Start a new Dialog, and will play each lines until it is finished, then return Success
+ * 
+ * TODO --> Should replace Process with a IStrategy implementation ? 
  */
 public class DialogCompleteLeaf : Leaf
 {
@@ -52,6 +54,8 @@ public class DialogCompleteLeaf : Leaf
 
 /**
  * Will Start a new Dialog and play the first line, and then return Success
+ *
+ * TODO --> Should replace Process with a IStrategy implementation ? 
  */
 public class DialogStartLeaf : Leaf
 {
@@ -92,6 +96,8 @@ public class DialogStartLeaf : Leaf
 
 /**
  * Will play the next line of the dialog, and return Success when the line is finished
+ *
+ * TODO --> Should replace Process with a IStrategy implementation ? 
  */
 public class DialogNextLineLeaf : Leaf
 {

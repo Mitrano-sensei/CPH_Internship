@@ -23,6 +23,7 @@ public class DialogSystem : MonoBehaviour
     
     public bool IsTyping => _isTyping;
     public bool IsDialogFinished => _currentLineIndex >= _dialogInfo.DialogLines.Count && !_isTyping;
+    public DialogInfo CurrentDialog => _dialogInfo;
     
     public void StartDialog(DialogInfo dialog)
     {
