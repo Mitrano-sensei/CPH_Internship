@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using BehaviourTree;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class DoorwayBehaviour : MonoBehaviour
 {
+    [SerializeField] private Transform moveTarget;
+    [SerializeField] private DoorwayTeleportation locomotionSystem;
+    
     [SerializeField] private DialogSystem dialogSystem;
     [SerializeField] private DialogInfo mainDialog;
     
@@ -100,6 +101,7 @@ public class DoorwayBehaviour : MonoBehaviour
         mainSequence.AddChild(waitForMovementInTables);
         mainSequence.AddChild(new DebugLeaf("Movement in tables detected"));
         mainSequence.AddChild(tableDialog);
+        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(moveTarget))));
         
         mainSequence.AddChild(new DebugLeaf("Ending"));
         

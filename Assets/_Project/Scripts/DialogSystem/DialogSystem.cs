@@ -42,18 +42,12 @@ public class DialogSystem : MonoBehaviour
     {
         if (_showTextCoroutine != null) StopDialog();
         _currentLineIndex += lastLine ? -1 : 1;
+
+        if (_currentLineIndex >= _dialogInfo.DialogLines.Count) return; // If it is finished, do nothing
         
-        if (_currentLineIndex < _dialogInfo.DialogLines.Count)
-        {
-            _isTyping = true;
-            _showTextCoroutine = ShowDialog();
-            StartCoroutine(ShowDialog());
-        }
-        else
-        {
-            textMeshPro.text = "";
-            audioSource.Stop();
-        }
+        _isTyping = true;
+        _showTextCoroutine = ShowDialog();
+        StartCoroutine(ShowDialog());
     }
 
     
