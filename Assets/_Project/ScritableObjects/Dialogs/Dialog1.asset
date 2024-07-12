@@ -35,3 +35,6 @@ MonoBehaviour:
   - speakerName: Doorway
     dialogText: 3...
     dialogAudio: {fileID: 0}
+  - speakerName: Doorway
+    dialogText: Go to the next zone now!
+    dialogAudio: {fileID: 0}

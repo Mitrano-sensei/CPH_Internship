@@ -58,6 +58,10 @@ public class DoorwayBehaviour : MonoBehaviour
         _behaviour.AddChild(mainSequence);
     }
 
+    [SerializeField] private Collider tableArea;
+    [SerializeField] private Transform player;
+    [FormerlySerializedAs("dialog2")] [SerializeField] private DialogInfo SecondDialog;
+    
     /**
      * Test Purpose
      */
@@ -76,6 +80,7 @@ public class DoorwayBehaviour : MonoBehaviour
         var mainSequence = new Sequence("Main Sequence");
         
         mainSequence.AddChild(new DebugLeaf("Starting"));
+        /*
         mainSequence.AddChild(doHello);
         mainSequence.AddChild(startDialog);
         
@@ -84,6 +89,17 @@ public class DoorwayBehaviour : MonoBehaviour
         mainSequence.AddChild(waitForDance);
         
         mainSequence.AddChild(finishDialog);
+        */
+        // TODO --> Here add the trigger zone and a second Dialog
+        var waitForMovementInTables = new UntilSuccess("Wait For Movement towards table area");
+        var isInTableArea = new LocationLeaf(tableArea, player, "Is In Table Area");
+        waitForMovementInTables.AddChild(isInTableArea);
+
+        var tableDialog = new DialogCompleteLeaf(dialogSystem, SecondDialog, "Second Dialog");
+        mainSequence.AddChild(new DebugLeaf("Waiting for movement in tables"));
+        mainSequence.AddChild(waitForMovementInTables);
+        mainSequence.AddChild(new DebugLeaf("Movement in tables detected"));
+        mainSequence.AddChild(tableDialog);
         
         mainSequence.AddChild(new DebugLeaf("Ending"));
         

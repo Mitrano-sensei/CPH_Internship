@@ -29,10 +29,11 @@ public class DialogSystem : MonoBehaviour
     {
         if (_showTextCoroutine != null) StopDialog();
 
+        _isTyping = true;
+
         _dialogInfo = dialog;
         _currentLineIndex = 0;
 
-        _isTyping = true;
         _showTextCoroutine = ShowDialog();
         StartCoroutine(_showTextCoroutine);
     }

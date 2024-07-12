@@ -31255,7 +31255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 2107718313}
   audioSource: {fileID: 712608751}
-  letterPerSecond: 100
+  letterPerSecond: 10
   followPlayer: 1
 --- !u!1 &1902436220
 GameObject:
@@ -32904,6 +32904,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogSystem: {fileID: 1888440092}
   mainDialog: {fileID: 11400000, guid: 4efd59e8bcdb5c44e92c2f510e0ecc3b, type: 2}
+  tableArea: {fileID: 1988384670}
+  player: {fileID: 419042727}
+  SecondDialog: {fileID: 11400000, guid: 9743d41df8d0fd243873d66d3e09a5ca, type: 2}
 --- !u!1001 &2057294289
 PrefabInstance:
   m_ObjectHideFlags: 0
