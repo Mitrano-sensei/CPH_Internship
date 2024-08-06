@@ -6,10 +6,12 @@ public class DoorwayTeleportation : MonoBehaviour, ILocomotionSystem
     [SerializeField] private Transform doorWay;
     [SerializeField] private GameObject doorWayVisuals;
     [SerializeField] private float teleportationTimeInSeconds = 2f;
+    [SerializeField] private float rotationTimeInSeconds = 2f;
     
     private bool _isMoving;
 
     public bool IsMoving => _isMoving;
+    
     public void MoveTo(Vector3 position)
     {
         if (_isMoving) return;
@@ -34,13 +36,18 @@ public class DoorwayTeleportation : MonoBehaviour, ILocomotionSystem
         teleportationSequence.Play();
     }
 
-    public void MoveTo(Transform target)
-    {
-        MoveTo(target.position);
-    }
-
-    public void RotateTo(Quaternion rotation)
-    {
+    public void MoveTo(Transform target) => MoveTo(target.position);
+    
+    public void RotateTo(Vector3 direction) {
+        if (_isMoving) return;
         
+        _isMoving = true;
+        
+        var teleportationSequence = DOTween.Sequence();
+        teleportationSequence.Append(doorWay.transform.DOLookAt(direction, rotationTimeInSeconds));
+        teleportationSequence.AppendCallback(() => _isMoving = false);
+        
+        teleportationSequence.Play();
     }
+    public void RotateTo(Transform target) => RotateTo(target.position - transform.position);
 }

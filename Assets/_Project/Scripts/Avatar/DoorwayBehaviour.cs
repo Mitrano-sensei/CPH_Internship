@@ -1,14 +1,18 @@
 using BehaviourTree;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 public class DoorwayBehaviour : MonoBehaviour
 {
-    [SerializeField] private Transform moveTarget;
-    [SerializeField] private DoorwayTeleportation locomotionSystem;
-    
+    [Header("Dialog")]
     [SerializeField] private DialogSystem dialogSystem;
     [SerializeField] private DialogInfo mainDialog;
+    
+    [Header("Locomotion")]
+    [SerializeField] private Transform firstTarget;
+    [SerializeField] private DoorwayNavMeshAgent locomotionSystem;
+    
     
     private readonly BehaviourTree.BehaviourTree _behaviour = new();
     private Animator _animator;
@@ -59,9 +63,10 @@ public class DoorwayBehaviour : MonoBehaviour
         _behaviour.AddChild(mainSequence);
     }
 
+    [Header("Test 2")]
     [SerializeField] private Collider tableArea;
     [SerializeField] private Transform player;
-    [FormerlySerializedAs("dialog2")] [SerializeField] private DialogInfo SecondDialog;
+    [SerializeField] private DialogInfo secondDialog;
     
     /**
      * Test Purpose
@@ -95,13 +100,22 @@ public class DoorwayBehaviour : MonoBehaviour
         var waitForMovementInTables = new UntilSuccess("Wait For Movement towards table area");
         var isInTableArea = new LocationLeaf(tableArea, player, "Is In Table Area");
         waitForMovementInTables.AddChild(isInTableArea);
+        
+        var waitForEndOfMovement = new UntilSuccess("Wait For End Of Movement");
+        waitForEndOfMovement.AddChild(new ConditionLeaf(() => !locomotionSystem.IsMoving));
 
-        var tableDialog = new DialogCompleteLeaf(dialogSystem, SecondDialog, "Second Dialog");
+        var tableDialog = new DialogCompleteLeaf(dialogSystem, secondDialog, "Second Dialog");
         mainSequence.AddChild(new DebugLeaf("Waiting for movement in tables"));
         mainSequence.AddChild(waitForMovementInTables);
         mainSequence.AddChild(new DebugLeaf("Movement in tables detected"));
         mainSequence.AddChild(tableDialog);
-        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(moveTarget))));
+        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(firstTarget))));
+        
+        mainSequence.AddChild(new DebugLeaf("Waiting for end of movement"));
+        mainSequence.AddChild(waitForEndOfMovement);
+        
+        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.RotateTo(player.transform))));
+        mainSequence.AddChild(waitForEndOfMovement);
         
         mainSequence.AddChild(new DebugLeaf("Ending"));
         
