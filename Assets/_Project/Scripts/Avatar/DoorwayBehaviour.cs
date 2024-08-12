@@ -107,13 +107,14 @@ public class DoorwayBehaviour : MonoBehaviour
         var tableDialog = new DialogCompleteLeaf(dialogSystem, secondDialog, "Second Dialog");
         mainSequence.AddChild(new DebugLeaf("Waiting for movement in tables"));
         mainSequence.AddChild(waitForMovementInTables);
-        mainSequence.AddChild(new DebugLeaf("Movement in tables detected"));
+        mainSequence.AddChild(new DebugLeaf("Movement in tables detected, Moving"));
         mainSequence.AddChild(tableDialog);
         mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(firstTarget))));
         
         mainSequence.AddChild(new DebugLeaf("Waiting for end of movement"));
         mainSequence.AddChild(waitForEndOfMovement);
         
+        mainSequence.AddChild(new DebugLeaf("Rotating"));
         mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.RotateTo(player.transform))));
         mainSequence.AddChild(waitForEndOfMovement);
         

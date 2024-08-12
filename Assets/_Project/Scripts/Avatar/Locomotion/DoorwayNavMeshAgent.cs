@@ -17,7 +17,7 @@ public class DoorwayNavMeshAgent : MonoBehaviour, ILocomotionSystem
     [SerializeField] private float rotationTimeInSeconds = 2f;
 
     private bool _isMoving;
-    public bool IsMoving => navMeshAgent.pathPending || navMeshAgent.remainingDistance > 0.1f && _isMoving;
+    public bool IsMoving => (navMeshAgent.pathPending || navMeshAgent.remainingDistance > 0.1f) || _isMoving;
     
     private static readonly int MovementSpeed = Animator.StringToHash("MovementSpeed");
     
@@ -37,16 +37,21 @@ public class DoorwayNavMeshAgent : MonoBehaviour, ILocomotionSystem
 
     public void MoveTo(Vector3 position) => navMeshAgent.SetDestination(position);
 
-    public void RotateTo(Transform target) => RotateTo(target.position - doorWay.position);
+    public void RotateTo(Transform target) => RotateTo(target.position);
 
-    public void RotateTo(Vector3 direction)
+    public void RotateTo(Vector3 target)
     {
-        if (_isMoving) return;
+        if (_isMoving)
+        {
+            Debug.LogError("Doorway is already moving");
+            return;
+        }
         
         _isMoving = true;
         
         var teleportationSequence = DOTween.Sequence();
-        teleportationSequence.Append(doorWay.transform.DOLookAt(direction, rotationTimeInSeconds));
+        
+        teleportationSequence.Append(doorWay.transform.DOLookAt(target, rotationTimeInSeconds));
         teleportationSequence.AppendCallback(() => _isMoving = false);
         
         teleportationSequence.Play();

@@ -14,7 +14,11 @@ public class DoorwayTeleportation : MonoBehaviour, ILocomotionSystem
     
     public void MoveTo(Vector3 position)
     {
-        if (_isMoving) return;
+        if (_isMoving)
+        {
+            Debug.LogError("Doorway is already moving");
+            return;
+        }
         
         _isMoving = true;
         
@@ -39,12 +43,16 @@ public class DoorwayTeleportation : MonoBehaviour, ILocomotionSystem
     public void MoveTo(Transform target) => MoveTo(target.position);
     
     public void RotateTo(Vector3 direction) {
-        if (_isMoving) return;
+        if (_isMoving)
+        {
+            Debug.LogError("Doorway is already moving");
+            return;
+        }
         
         _isMoving = true;
         
         var teleportationSequence = DOTween.Sequence();
-        teleportationSequence.Append(doorWay.transform.DOLookAt(direction, rotationTimeInSeconds));
+        teleportationSequence.Append(doorWay.transform.DOLookAt(transform.position , rotationTimeInSeconds));
         teleportationSequence.AppendCallback(() => _isMoving = false);
         
         teleportationSequence.Play();
