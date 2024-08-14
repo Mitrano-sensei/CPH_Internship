@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e87b934b91b4534b90caa1672ee727b, type: 3}
+  m_Name: InteruptionDialog1
+  m_EditorClassIdentifier: 
+  dialogName: Dialog
+  dialogLines:
+  - speakerName: Angry Doorway
+    dialogText: Hey! You can't just ignore me, come back here!
+    dialogAudio: {fileID: 8300000, guid: 7b4d8fe88f75f1140985c03d16fc06a0, type: 3}
