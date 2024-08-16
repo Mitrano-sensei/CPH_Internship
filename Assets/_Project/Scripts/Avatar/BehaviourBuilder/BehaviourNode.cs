@@ -84,14 +84,6 @@ public class PlayAnimationNode : BehaviourNode
         var baseAnimationName = "Base."+animationName;
         
         var isAnimatedOrTransition = animator.GetCurrentAnimatorStateInfo(0).IsName(baseAnimationName) || animator.IsInTransition(0);
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName(baseAnimationName))
-        {
-            Debug.LogError("Flag 1 : " + baseAnimationName);
-        }
-        if (!animator.IsInTransition(0))
-        {
-            Debug.LogError("Flag 2");
-        }
         return !isAnimatedOrTransition;
     }
 }
