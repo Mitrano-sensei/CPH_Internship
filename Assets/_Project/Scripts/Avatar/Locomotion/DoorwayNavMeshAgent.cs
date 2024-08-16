@@ -18,7 +18,8 @@ public class DoorwayNavMeshAgent : MonoBehaviour, ILocomotionSystem
 
     private bool _isMoving;
     public bool IsMoving => (navMeshAgent.pathPending || navMeshAgent.remainingDistance > 0.1f) || _isMoving;
-    
+    public float RotationTime => rotationTimeInSeconds;
+
     private static readonly int MovementSpeed = Animator.StringToHash("MovementSpeed");
     
 

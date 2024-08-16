@@ -5,6 +5,8 @@
  */
 public interface ILocomotionSystem
 {
+    public float RotationTime { get; }
+    
     bool IsMoving { get; }
     
     // Move to the position

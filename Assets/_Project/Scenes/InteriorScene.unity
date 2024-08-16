@@ -34668,11 +34668,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogSystem: {fileID: 1888440092}
   mainDialog: {fileID: 11400000, guid: 4efd59e8bcdb5c44e92c2f510e0ecc3b, type: 2}
-  firstTarget: {fileID: 1079776992}
+  firstTestTarget: {fileID: 0}
   locomotionSystem: {fileID: 1178617647}
+  behaviour:
+  - node:
+      rid: 3620406244078518272
+  - node:
+      rid: 3620406244078518273
+  - node:
+      rid: 3620406244078518277
+  - node:
+      rid: 3620406244078518274
+  - node:
+      rid: 3620406244078518275
+  - node:
+      rid: 3620406244078518276
+  - node:
+      rid: 3620406244078518279
+  - node:
+      rid: 3620406244078518280
+  - node:
+      rid: 3620406244078518281
+  - node:
+      rid: 3620406244078518282
   tableArea: {fileID: 1988384670}
   player: {fileID: 419042727}
   secondDialog: {fileID: 11400000, guid: 9743d41df8d0fd243873d66d3e09a5ca, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 3620406244078518272
+      type: {class: DebugNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Init
+    - rid: 3620406244078518273
+      type: {class: PlayAnimationNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Play Hello
+        animator: {fileID: 2054279803}
+        animationName: Coucou
+        triggerName: Hello
+    - rid: 3620406244078518274
+      type: {class: WalkToNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Go To First Target
+        locomotionSystem: {fileID: 1178617647}
+        moveToTarget: {fileID: 1079776992}
+    - rid: 3620406244078518275
+      type: {class: DebugNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Finished Moving, Starting To Dance
+    - rid: 3620406244078518276
+      type: {class: PlayAnimationNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Go To First Target
+        animator: {fileID: 2054279803}
+        animationName: Dance
+        triggerName: Dance
+    - rid: 3620406244078518277
+      type: {class: DebugNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Hellow
+    - rid: 3620406244078518279
+      type: {class: DebugNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Finished To Dance :D
+    - rid: 3620406244078518280
+      type: {class: RotateToNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Rotating
+        locomotionSystem: {fileID: 1178617647}
+        target: {fileID: 419042727}
+    - rid: 3620406244078518281
+      type: {class: DialogNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Dialog
+        dialogSystem: {fileID: 1888440092}
+        dialog: {fileID: 11400000, guid: 4efd59e8bcdb5c44e92c2f510e0ecc3b, type: 2}
+    - rid: 3620406244078518282
+      type: {class: DebugNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeName: Finished Dialog
 --- !u!195 &2054279805
 NavMeshAgent:
   m_ObjectHideFlags: 0

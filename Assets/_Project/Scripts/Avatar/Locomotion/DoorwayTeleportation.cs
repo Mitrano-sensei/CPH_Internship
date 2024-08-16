@@ -8,6 +8,7 @@ public class DoorwayTeleportation : MonoBehaviour, ILocomotionSystem
     [SerializeField] private float teleportationTimeInSeconds = 2f;
     [SerializeField] private float rotationTimeInSeconds = 2f;
     
+    public float RotationTime => rotationTimeInSeconds;
     private bool _isMoving;
 
     public bool IsMoving => _isMoving;
