@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using BehaviourTree;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 public class DoorwayBehaviour : MonoBehaviour
 {
@@ -9,30 +9,49 @@ public class DoorwayBehaviour : MonoBehaviour
     [SerializeField] private DialogSystem dialogSystem;
     [SerializeField] private DialogInfo mainDialog;
     
-    [Header("Locomotion")]
-    [SerializeField] private Transform firstTarget;
-    [SerializeField] private DoorwayNavMeshAgent locomotionSystem;
-    
-    
-    private readonly BehaviourTree.BehaviourTree _behaviour = new();
     private Animator _animator;
-    
     private static readonly int Dance = Animator.StringToHash("Dance");
     private static readonly int Hello = Animator.StringToHash("Hello");
     private static readonly int Idle = Animator.StringToHash("Idle");
+    
+    [Header("Locomotion")]
+    [SerializeField] private Transform firstTestTarget;
+    [SerializeField] private DoorwayNavMeshAgent locomotionSystem;
+    
+    [Header("BehaviourBuilder")]
+    [SerializeField] private List<BehaviourDefinition> behaviour;
+    
+    private readonly BehaviourTree.BehaviourTree _behaviourTree = new();
 
-    // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
-        
-        InitTestBehaviour2();
+
+        InitBehaviourTree();
+        //InitTestBehaviour2();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        _behaviour.Process();
+        _behaviourTree.Process();
+    }
+
+    private void InitBehaviourTree()
+    {
+        if (behaviour == null || behaviour.Count == 0)
+        {
+            Debug.LogError("No Behaviour Defined");
+            return;
+        }
+
+        var mainSequence = new Sequence("Main Sequence");
+
+        foreach (var node in behaviour.Select(n => n.node.GetNode()))
+        {
+            mainSequence.AddChild(node);
+        }
+        
+        _behaviourTree.AddChild(mainSequence);
     }
     
     /**
@@ -60,7 +79,7 @@ public class DoorwayBehaviour : MonoBehaviour
         mainSequence.AddChild(waitTwoSec);
         mainSequence.AddChild(new DebugLeaf("Ending"));
         
-        _behaviour.AddChild(mainSequence);
+        _behaviourTree.AddChild(mainSequence);
     }
 
     [Header("Test 2")]
@@ -109,7 +128,7 @@ public class DoorwayBehaviour : MonoBehaviour
         mainSequence.AddChild(waitForMovementInTables);
         mainSequence.AddChild(new DebugLeaf("Movement in tables detected, Moving"));
         mainSequence.AddChild(tableDialog);
-        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(firstTarget))));
+        mainSequence.AddChild(new Leaf(new ActionStrategy(() => locomotionSystem.MoveTo(firstTestTarget))));
         
         mainSequence.AddChild(new DebugLeaf("Waiting for end of movement"));
         mainSequence.AddChild(waitForEndOfMovement);
@@ -120,7 +139,7 @@ public class DoorwayBehaviour : MonoBehaviour
         
         mainSequence.AddChild(new DebugLeaf("Ending"));
         
-        _behaviour.AddChild(mainSequence);
+        _behaviourTree.AddChild(mainSequence);
     }
 
     
