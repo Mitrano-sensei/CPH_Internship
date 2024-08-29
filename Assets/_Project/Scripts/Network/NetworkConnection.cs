@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
@@ -8,7 +8,6 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NetworkConnection : MonoBehaviour
@@ -17,9 +16,10 @@ public class NetworkConnection : MonoBehaviour
     [SerializeField] private UnityTransport transport;
     private Lobby _currentLobby;
 
+    /*
     void Update()
     {
-        // If C is pressed, create a client, if H is pressed create a host
+        // DEBUG : If C is pressed, create a client, if H is pressed create a host
         if (Input.GetKeyDown(KeyCode.C))
         {
             CreateClient();
@@ -29,32 +29,43 @@ public class NetworkConnection : MonoBehaviour
             CreateHost();
         }
     }
+    */
 
     private async void Awake()
     {
         await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-        //CreateOrJoin();
+        CreateOrJoin();
     }
 
+    /**
+     * Create a host if no lobbies are found, otherwise create a client,
+     * Could be replaced with a Lobby list system in the future
+     */
     private async void CreateOrJoin()
     {
-        try
-        {
-            _currentLobby = await Lobbies.Instance.QuickJoinLobbyAsync();
-            var joinCode = _currentLobby.Data["JOIN_CODE"].Value;
+        var joinCode = await FindLobbyJoinCode();
 
-            JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-        
-            transport.SetClientRelayData(allocation.RelayServer.IpV4, (ushort)allocation.RelayServer.Port, allocation.AllocationIdBytes, allocation.Key, allocation.ConnectionData, allocation.HostConnectionData);
-        
-            NetworkManager.Singleton.StartClient();
-        }
-        catch
-        {
+        if (joinCode != null)
+            CreateClient(joinCode);
+        else
             CreateHost();
+    }
+    
+    private async Task<string> FindLobbyJoinCode()
+    {
+        var lobbies = await Lobbies.Instance.QueryLobbiesAsync();
+        foreach (var lobby in lobbies.Results)
+        {
+            lobby.Data.TryGetValue("JOIN_CODE", out var joinCode);
+            if (joinCode != null)
+            {
+                return joinCode.Value;
+            }
         }
+
+        return null;
     }
     
     private async void CreateHost()
@@ -77,12 +88,9 @@ public class NetworkConnection : MonoBehaviour
         Debug.Log("Created lobby with join code: " + newJoinCode);
         NetworkManager.Singleton.StartHost();
     }
-    
-    private async void CreateClient()
-    {
-        _currentLobby = await Lobbies.Instance.QuickJoinLobbyAsync();
-        var joinCode = _currentLobby.Data["JOIN_CODE"].Value;
 
+    private async void CreateClient(string joinCode)
+    {
         JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
         
         transport.SetClientRelayData(allocation.RelayServer.IpV4, (ushort)allocation.RelayServer.Port, allocation.AllocationIdBytes, allocation.Key, allocation.ConnectionData, allocation.HostConnectionData);
@@ -90,6 +98,5 @@ public class NetworkConnection : MonoBehaviour
         Debug.Log("Joined lobby with join code: " + joinCode);
         NetworkManager.Singleton.StartClient();
     }
-    
     
 }

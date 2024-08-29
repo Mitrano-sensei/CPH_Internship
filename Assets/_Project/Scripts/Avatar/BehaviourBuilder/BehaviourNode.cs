@@ -2,12 +2,19 @@ using System;
 using BehaviourTree;
 using UnityEngine;
 
+/**
+ * Represents a behaviour definition that can be used to create a behaviour tree
+ */
 [Serializable]
 public class BehaviourDefinition
 {
     [SerializeReference, SubclassSelector] public BehaviourNode node;
 }
 
+/**
+ * Represents a behaviour node that can be used to create a behaviour tree
+ * Concrete implementations of this class should be annotated with the [Serializable] attribute and will show as an option in the SubclassSelector
+ */
 [Serializable]
 public abstract class BehaviourNode
 {
@@ -18,6 +25,9 @@ public abstract class BehaviourNode
 }
 
 #region BehaviourNodes
+/**
+ * Doorway will move to the target location
+ */
 [Serializable]
 public class WalkToNode : BehaviourNode
 {
@@ -46,6 +56,9 @@ public class WalkToNode : BehaviourNode
     }
 }
 
+/**
+ * Doorway will play an animation, and wait for the animation to finish
+ */
 [Serializable]
 public class PlayAnimationNode : BehaviourNode
 {
@@ -88,6 +101,9 @@ public class PlayAnimationNode : BehaviourNode
     }
 }
 
+/**
+ * Will Debug.Log the node name
+ */
 [Serializable]
 public class DebugNode : BehaviourNode
 {
@@ -97,18 +113,24 @@ public class DebugNode : BehaviourNode
     }
 }
 
+/**
+ * Will wait for a certain amount of time in seconds
+ */
 [Serializable]
 public class WaitNode : BehaviourNode
 {
     [Header("Requirements")]
-    [SerializeField] public float waitTime;
+    [SerializeField] public float waitTimeInSeconds;
     
     public override Node GetNode()
     {
-        return new WaitLeaf(waitTime);
+        return new WaitLeaf(waitTimeInSeconds);
     }
 }
 
+/**
+ * Will wait for the player to move to a certain location
+ */
 [Serializable]
 public class WaitForMovementNode : BehaviourNode
 {
@@ -122,6 +144,9 @@ public class WaitForMovementNode : BehaviourNode
     }
 }
 
+/**
+ * Doorway will play a Dialog, and wait for the dialog to finish
+ */
 [Serializable]
 public class DialogNode : BehaviourNode
 {
@@ -135,6 +160,9 @@ public class DialogNode : BehaviourNode
     }
 }
 
+/**
+ * Doorway will rotate to look at the target
+ */
 [Serializable]
 public class RotateToNode : BehaviourNode
 {

@@ -33,7 +33,6 @@ public class DoorwayNavMeshAgent : MonoBehaviour, ILocomotionSystem
         animator.SetFloat(MovementSpeed, navMeshAgent.velocity.magnitude / navMeshAgent.speed);
     }
     
-
     public void MoveTo(Transform target) => navMeshAgent.SetDestination(target.position);
 
     public void MoveTo(Vector3 position) => navMeshAgent.SetDestination(position);

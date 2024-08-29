@@ -22,6 +22,7 @@ public class DoorwayBehaviour : MonoBehaviour
     
     private readonly BehaviourTree.BehaviourTree _behaviourTree = new();
 
+    #region Unity Methods
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -33,7 +34,11 @@ public class DoorwayBehaviour : MonoBehaviour
     {
         _behaviourTree.Process();
     }
-
+    #endregion
+    
+    /**
+     * Will build Doorway's Behaviour tree from the Serialized List of BehaviourDefinition in the Inspector
+     */
     private void InitBehaviourTree()
     {
         if (behaviour == null || behaviour.Count == 0)
@@ -53,7 +58,7 @@ public class DoorwayBehaviour : MonoBehaviour
     }
 
     #region Old Tests
-    /*
+    /* (Can be used as examples of how the BehaviourTree Works
     private void InitTestBehaviour2()
     {
         var doDance = new Leaf(new ActionStrategy(DanceMove));
