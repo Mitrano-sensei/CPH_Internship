@@ -15,7 +15,6 @@ public class DoorwayBehaviour : MonoBehaviour
     private static readonly int Idle = Animator.StringToHash("Idle");
     
     [Header("Locomotion")]
-    [SerializeField] private Transform firstTestTarget;
     [SerializeField] private DoorwayNavMeshAgent locomotionSystem;
     
     [Header("BehaviourBuilder")]
@@ -23,19 +22,23 @@ public class DoorwayBehaviour : MonoBehaviour
     
     private readonly BehaviourTree.BehaviourTree _behaviourTree = new();
 
+    #region Unity Methods
     void Start()
     {
         _animator = GetComponent<Animator>();
 
         InitBehaviourTree();
-        //InitTestBehaviour2();
     }
 
     void Update()
     {
         _behaviourTree.Process();
     }
-
+    #endregion
+    
+    /**
+     * Will build Doorway's Behaviour tree from the Serialized List of BehaviourDefinition in the Inspector
+     */
     private void InitBehaviourTree()
     {
         if (behaviour == null || behaviour.Count == 0)
@@ -53,43 +56,9 @@ public class DoorwayBehaviour : MonoBehaviour
         
         _behaviourTree.AddChild(mainSequence);
     }
-    
-    /**
-     * Test Purpose
-     */
-    private void InitTestBehaviour()
-    {
-        var mainSequence = new Sequence("Main Sequence");
-        
-        var doDance = new Leaf(new ActionStrategy(DanceMove));
-        var doHello = new Leaf(new ActionStrategy(SayHello));
-        var waitTwoSec = new WaitLeaf(2f);
-        var waitForDance = new UntilSuccess("Wait For Dance");
 
-        var playDialog = new DialogCompleteLeaf(dialogSystem, mainDialog, "Hello and Dance!");
-        
-        waitForDance.AddChild(new ConditionLeaf(IsDanceFinished));
-        
-        mainSequence.AddChild(new DebugLeaf("Starting"));
-        mainSequence.AddChild(doHello);
-        mainSequence.AddChild(playDialog);
-        mainSequence.AddChild(doDance);
-        mainSequence.AddChild(waitForDance);
-        mainSequence.AddChild(new DebugLeaf("Dance Finished"));
-        mainSequence.AddChild(waitTwoSec);
-        mainSequence.AddChild(new DebugLeaf("Ending"));
-        
-        _behaviourTree.AddChild(mainSequence);
-    }
-
-    [Header("Test 2")]
-    [SerializeField] private Collider tableArea;
-    [SerializeField] private Transform player;
-    [SerializeField] private DialogInfo secondDialog;
-    
-    /**
-     * Test Purpose
-     */
+    #region Old Tests
+    /* (Can be used as examples of how the BehaviourTree Works
     private void InitTestBehaviour2()
     {
         var doDance = new Leaf(new ActionStrategy(DanceMove));
@@ -141,7 +110,7 @@ public class DoorwayBehaviour : MonoBehaviour
         
         _behaviourTree.AddChild(mainSequence);
     }
-
+    */
     
     /**
      * Returns true if the dance animation is finished
@@ -168,4 +137,5 @@ public class DoorwayBehaviour : MonoBehaviour
     {
         _animator.SetTrigger(Hello);
     }
+    #endregion
 }
